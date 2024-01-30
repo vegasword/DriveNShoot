@@ -44,6 +44,15 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""AimMouse"",
+                    ""type"": ""Button"",
+                    ""id"": ""c8b8748f-fa57-47d4-ad71-fc54a2031c77"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -131,7 +140,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KBM"",
-                    ""action"": ""Aim"",
+                    ""action"": ""AimMouse"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -172,6 +181,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         m_PawnControls = asset.FindActionMap("PawnControls", throwIfNotFound: true);
         m_PawnControls_Move = m_PawnControls.FindAction("Move", throwIfNotFound: true);
         m_PawnControls_Aim = m_PawnControls.FindAction("Aim", throwIfNotFound: true);
+        m_PawnControls_AimMouse = m_PawnControls.FindAction("AimMouse", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -235,12 +245,14 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
     private List<IPawnControlsActions> m_PawnControlsActionsCallbackInterfaces = new List<IPawnControlsActions>();
     private readonly InputAction m_PawnControls_Move;
     private readonly InputAction m_PawnControls_Aim;
+    private readonly InputAction m_PawnControls_AimMouse;
     public struct PawnControlsActions
     {
         private @GameControls m_Wrapper;
         public PawnControlsActions(@GameControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_PawnControls_Move;
         public InputAction @Aim => m_Wrapper.m_PawnControls_Aim;
+        public InputAction @AimMouse => m_Wrapper.m_PawnControls_AimMouse;
         public InputActionMap Get() { return m_Wrapper.m_PawnControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -256,6 +268,9 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @Aim.started += instance.OnAim;
             @Aim.performed += instance.OnAim;
             @Aim.canceled += instance.OnAim;
+            @AimMouse.started += instance.OnAimMouse;
+            @AimMouse.performed += instance.OnAimMouse;
+            @AimMouse.canceled += instance.OnAimMouse;
         }
 
         private void UnregisterCallbacks(IPawnControlsActions instance)
@@ -266,6 +281,9 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @Aim.started -= instance.OnAim;
             @Aim.performed -= instance.OnAim;
             @Aim.canceled -= instance.OnAim;
+            @AimMouse.started -= instance.OnAimMouse;
+            @AimMouse.performed -= instance.OnAimMouse;
+            @AimMouse.canceled -= instance.OnAimMouse;
         }
 
         public void RemoveCallbacks(IPawnControlsActions instance)
@@ -305,5 +323,6 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
+        void OnAimMouse(InputAction.CallbackContext context);
     }
 }

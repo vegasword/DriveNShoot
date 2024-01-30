@@ -22,6 +22,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "AimMouse",
+                    "type": "Button",
+                    "id": "c8b8748f-fa57-47d4-ad71-fc54a2031c77",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -109,7 +118,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "KBM",
-                    "action": "Aim",
+                    "action": "AimMouse",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
