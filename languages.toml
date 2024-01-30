@@ -1,0 +1,3 @@
+[language-server.omnisharp]
+command = "dotnet"
+args = [ "C:/omnisharp/OmniSharp.dll", "--languageserver" ]
