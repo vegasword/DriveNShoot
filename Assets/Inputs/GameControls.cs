@@ -24,7 +24,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
     ""name"": ""GameControls"",
     ""maps"": [
         {
-            ""name"": ""PawnControls"",
+            ""name"": ""OnFoot"",
             ""id"": ""f8129ed4-f899-41f8-90d0-0416fe2eb8aa"",
             ""actions"": [
                 {
@@ -145,6 +145,67 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""InVehicle"",
+            ""id"": ""b17082da-367a-4fe9-9ab1-1e35827bea2a"",
+            ""actions"": [
+                {
+                    ""name"": ""Turn"",
+                    ""type"": ""Value"",
+                    ""id"": ""70129a8c-be31-4795-aa1c-0288ed403cd7"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""56e4562a-4895-4db6-8197-bbb4905fdc0b"",
+                    ""path"": ""<Gamepad>/leftStick/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Turn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""QD"",
+                    ""id"": ""0d72ceb6-ecdf-49d0-bd54-26f4880b9c85"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Turn"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""ea69f2e6-3e9c-49c3-9c5c-b71af9b49827"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KBM"",
+                    ""action"": ""Turn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""5086f08a-cb61-404a-93e6-d18f5d5b9386"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KBM"",
+                    ""action"": ""Turn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -177,11 +238,14 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         }
     ]
 }");
-        // PawnControls
-        m_PawnControls = asset.FindActionMap("PawnControls", throwIfNotFound: true);
-        m_PawnControls_Move = m_PawnControls.FindAction("Move", throwIfNotFound: true);
-        m_PawnControls_Aim = m_PawnControls.FindAction("Aim", throwIfNotFound: true);
-        m_PawnControls_AimMouse = m_PawnControls.FindAction("AimMouse", throwIfNotFound: true);
+        // OnFoot
+        m_OnFoot = asset.FindActionMap("OnFoot", throwIfNotFound: true);
+        m_OnFoot_Move = m_OnFoot.FindAction("Move", throwIfNotFound: true);
+        m_OnFoot_Aim = m_OnFoot.FindAction("Aim", throwIfNotFound: true);
+        m_OnFoot_AimMouse = m_OnFoot.FindAction("AimMouse", throwIfNotFound: true);
+        // InVehicle
+        m_InVehicle = asset.FindActionMap("InVehicle", throwIfNotFound: true);
+        m_InVehicle_Turn = m_InVehicle.FindAction("Turn", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -240,28 +304,28 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // PawnControls
-    private readonly InputActionMap m_PawnControls;
-    private List<IPawnControlsActions> m_PawnControlsActionsCallbackInterfaces = new List<IPawnControlsActions>();
-    private readonly InputAction m_PawnControls_Move;
-    private readonly InputAction m_PawnControls_Aim;
-    private readonly InputAction m_PawnControls_AimMouse;
-    public struct PawnControlsActions
+    // OnFoot
+    private readonly InputActionMap m_OnFoot;
+    private List<IOnFootActions> m_OnFootActionsCallbackInterfaces = new List<IOnFootActions>();
+    private readonly InputAction m_OnFoot_Move;
+    private readonly InputAction m_OnFoot_Aim;
+    private readonly InputAction m_OnFoot_AimMouse;
+    public struct OnFootActions
     {
         private @GameControls m_Wrapper;
-        public PawnControlsActions(@GameControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_PawnControls_Move;
-        public InputAction @Aim => m_Wrapper.m_PawnControls_Aim;
-        public InputAction @AimMouse => m_Wrapper.m_PawnControls_AimMouse;
-        public InputActionMap Get() { return m_Wrapper.m_PawnControls; }
+        public OnFootActions(@GameControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_OnFoot_Move;
+        public InputAction @Aim => m_Wrapper.m_OnFoot_Aim;
+        public InputAction @AimMouse => m_Wrapper.m_OnFoot_AimMouse;
+        public InputActionMap Get() { return m_Wrapper.m_OnFoot; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(PawnControlsActions set) { return set.Get(); }
-        public void AddCallbacks(IPawnControlsActions instance)
+        public static implicit operator InputActionMap(OnFootActions set) { return set.Get(); }
+        public void AddCallbacks(IOnFootActions instance)
         {
-            if (instance == null || m_Wrapper.m_PawnControlsActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_PawnControlsActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_OnFootActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_OnFootActionsCallbackInterfaces.Add(instance);
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
@@ -273,7 +337,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @AimMouse.canceled += instance.OnAimMouse;
         }
 
-        private void UnregisterCallbacks(IPawnControlsActions instance)
+        private void UnregisterCallbacks(IOnFootActions instance)
         {
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
@@ -286,21 +350,67 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @AimMouse.canceled -= instance.OnAimMouse;
         }
 
-        public void RemoveCallbacks(IPawnControlsActions instance)
+        public void RemoveCallbacks(IOnFootActions instance)
         {
-            if (m_Wrapper.m_PawnControlsActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_OnFootActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(IPawnControlsActions instance)
+        public void SetCallbacks(IOnFootActions instance)
         {
-            foreach (var item in m_Wrapper.m_PawnControlsActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_OnFootActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_PawnControlsActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_OnFootActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public PawnControlsActions @PawnControls => new PawnControlsActions(this);
+    public OnFootActions @OnFoot => new OnFootActions(this);
+
+    // InVehicle
+    private readonly InputActionMap m_InVehicle;
+    private List<IInVehicleActions> m_InVehicleActionsCallbackInterfaces = new List<IInVehicleActions>();
+    private readonly InputAction m_InVehicle_Turn;
+    public struct InVehicleActions
+    {
+        private @GameControls m_Wrapper;
+        public InVehicleActions(@GameControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Turn => m_Wrapper.m_InVehicle_Turn;
+        public InputActionMap Get() { return m_Wrapper.m_InVehicle; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(InVehicleActions set) { return set.Get(); }
+        public void AddCallbacks(IInVehicleActions instance)
+        {
+            if (instance == null || m_Wrapper.m_InVehicleActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_InVehicleActionsCallbackInterfaces.Add(instance);
+            @Turn.started += instance.OnTurn;
+            @Turn.performed += instance.OnTurn;
+            @Turn.canceled += instance.OnTurn;
+        }
+
+        private void UnregisterCallbacks(IInVehicleActions instance)
+        {
+            @Turn.started -= instance.OnTurn;
+            @Turn.performed -= instance.OnTurn;
+            @Turn.canceled -= instance.OnTurn;
+        }
+
+        public void RemoveCallbacks(IInVehicleActions instance)
+        {
+            if (m_Wrapper.m_InVehicleActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IInVehicleActions instance)
+        {
+            foreach (var item in m_Wrapper.m_InVehicleActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_InVehicleActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public InVehicleActions @InVehicle => new InVehicleActions(this);
     private int m_GamepadSchemeIndex = -1;
     public InputControlScheme GamepadScheme
     {
@@ -319,10 +429,14 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             return asset.controlSchemes[m_KBMSchemeIndex];
         }
     }
-    public interface IPawnControlsActions
+    public interface IOnFootActions
     {
         void OnMove(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
         void OnAimMouse(InputAction.CallbackContext context);
+    }
+    public interface IInVehicleActions
+    {
+        void OnTurn(InputAction.CallbackContext context);
     }
 }

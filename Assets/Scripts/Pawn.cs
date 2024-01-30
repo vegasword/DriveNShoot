@@ -54,7 +54,7 @@ public class Pawn : MonoBehaviour
     grounded = controller.isGrounded;
     if (grounded && velocity.y < 0) velocity.y = 0;
     
-    move = controls.PawnControls.Move.ReadValue<Vector2>();
+    move = controls.OnFoot.Move.ReadValue<Vector2>();
     
     moveDirection.Set(move.x, 0, move.y);
     controller.Move(moveDirection * speed * Time.deltaTime);
@@ -63,12 +63,12 @@ public class Pawn : MonoBehaviour
     
     if (isGamepad)
     {
-      aim = controls.PawnControls.Aim.ReadValue<Vector2>();
+      aim = controls.OnFoot.Aim.ReadValue<Vector2>();
       aimDirection = Vector3.right * aim.x + Vector3.forward * aim.y;
     }
     else
     {
-      aim = controls.PawnControls.AimMouse.ReadValue<Vector2>();
+      aim = controls.OnFoot.AimMouse.ReadValue<Vector2>();
       aimDirection.Set(aim.x - (Screen.width/2), 0, aim.y - (Screen.height/2));
       aimDirection = Vector3.Normalize(aimDirection);
     }    

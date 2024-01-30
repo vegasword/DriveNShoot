@@ -2,7 +2,7 @@
     "name": "GameControls",
     "maps": [
         {
-            "name": "PawnControls",
+            "name": "OnFoot",
             "id": "f8129ed4-f899-41f8-90d0-0416fe2eb8aa",
             "actions": [
                 {
@@ -121,6 +121,67 @@
                     "action": "AimMouse",
                     "isComposite": false,
                     "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "InVehicle",
+            "id": "b17082da-367a-4fe9-9ab1-1e35827bea2a",
+            "actions": [
+                {
+                    "name": "Turn",
+                    "type": "Value",
+                    "id": "70129a8c-be31-4795-aa1c-0288ed403cd7",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "56e4562a-4895-4db6-8197-bbb4905fdc0b",
+                    "path": "<Gamepad>/leftStick/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Turn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "QD",
+                    "id": "0d72ceb6-ecdf-49d0-bd54-26f4880b9c85",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Turn",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "ea69f2e6-3e9c-49c3-9c5c-b71af9b49827",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KBM",
+                    "action": "Turn",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "5086f08a-cb61-404a-93e6-d18f5d5b9386",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KBM",
+                    "action": "Turn",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }
