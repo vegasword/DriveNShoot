@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 2937645486998947057}
   - component: {fileID: 6061402151222138138}
   - component: {fileID: 6684158245612801127}
-  - component: {fileID: 4318922946281713003}
+  - component: {fileID: 3417474716701191678}
   m_Layer: 0
-  m_Name: NPC
+  m_Name: agressive_NPC
   m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -131,7 +131,7 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &4318922946281713003
+--- !u!114 &3417474716701191678
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -140,9 +140,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7618838144335046406}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b10b1261ab58e46f982e9e4e173a0741, type: 3}
+  m_Script: {fileID: 11500000, guid: 389fb66751f454ce39b774b6bd8c634b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   NavMeshAgent: {fileID: 6684158245612801127}
-  Target: {fileID: 1505161890700690369, guid: a590cc20f38ad46d9ad90b5d51a88423, type: 3}
-  AllTargets: []
+  SectorSize: 50
+  TriggerDistance: 10
+  aim: 30
+  delaiEntreLesTirs: 1

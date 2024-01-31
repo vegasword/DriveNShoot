@@ -31,12 +31,9 @@ public class NPC_Routine : MonoBehaviour
         }
     }
     void FindTarget(){
-        if (Target != null)
-            Target.transform.tag = "Target";
 
         AllTargets = GameObject.FindGameObjectsWithTag("Target");
         Target = AllTargets[Random.Range(0, AllTargets.Length)];
-        Target.transform.tag = "Untagged";
         NavMeshAgent.destination = Target.transform.position;
     }
 }

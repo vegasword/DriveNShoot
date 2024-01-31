@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 4001422831034579330}
   - component: {fileID: 3125447173744938827}
   m_Layer: 0
-  m_Name: NPC_Target
-  m_TagString: Target
+  m_Name: Agressive_NPC_Target
+  m_TagString: BadGuysTarget
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 783ee1c32626d4ac79fcbd2da513643c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab_NPC: {fileID: 7618838144335046406, guid: cf4f27adbc5004a01aa71d17810a0470,
+  prefab_NPC: {fileID: 7618838144335046406, guid: b36a49e7e1a434f05974121217f5d233,
     type: 3}
