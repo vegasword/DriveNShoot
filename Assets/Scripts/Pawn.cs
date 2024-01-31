@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,6 +15,8 @@ public class Pawn : MonoBehaviour
   private PlayerInput input;
   private CharacterController controller;
 
+  private Renderer pawnRenderer;
+
   private bool grounded;
   private Vector2 move;
   private Vector2 aim;
@@ -25,60 +25,87 @@ public class Pawn : MonoBehaviour
   private Vector3 moveDirection;
   private Vector3 aimDirection;
   private Vector3 cameraTarget;
+
+  [HideInInspector] public bool driving;
+  [HideInInspector] public CarControl vehicle;
   
-  private void Awake()
+  private void Start()
   {
     controller = GetComponent<CharacterController>();
     controls = new GameControls();
     controls.Enable();
     input = GetComponent<PlayerInput>();
-  }
-  
-  private void onEnable()
-  {
-    controls.Enable();
-  }
-  
-  private void onDisable()
-  {
-    controls.Disable();
-  }
+    input.actions["Interact"].performed += OnInteract;
 
+    pawnRenderer = GetComponent<Renderer>();
+  }
+  
   public void OnDeviceChanged(PlayerInput playerInput)
   {
     isGamepad = playerInput.currentControlScheme.Equals("Gamepad");
   }
   
-  private void Update()
+  public void OnInteract(InputAction.CallbackContext callbackContext)
   {
-    grounded = controller.isGrounded;
-    if (grounded && velocity.y < 0) velocity.y = 0;
-    
-    move = controls.OnFoot.Move.ReadValue<Vector2>();
-    
-    moveDirection.Set(move.x, 0, move.y);
-    controller.Move(moveDirection * speed * Time.deltaTime);
-    velocity.y += gravity * Time.deltaTime;
-    controller.Move(velocity * Time.deltaTime);
-    
-    if (isGamepad)
+    if (vehicle)
     {
-      aim = controls.OnFoot.Aim.ReadValue<Vector2>();
-      aimDirection = Vector3.right * aim.x + Vector3.forward * aim.y;
+      driving = !driving;
+      vehicle.engineOn = driving;
+      controller.enabled = !driving;
+      pawnRenderer.enabled = !driving;
+      
+      if (driving)
+      {
+        transform.SetPositionAndRotation(vehicle.inside.transform.position, Quaternion.identity);
+        transform.SetParent(vehicle.transform);
+      }
+      else
+      {
+        transform.SetPositionAndRotation(vehicle.outside.transform.position, Quaternion.identity);
+        transform.SetParent(null);
+        vehicle = null;
+      }
     }
-    else
+  }
+  
+  private void Update()
+  {    
+    if (!driving)
     {
-      aim = controls.OnFoot.AimMouse.ReadValue<Vector2>();
-      aimDirection.Set(aim.x - (Screen.width/2), 0, aim.y - (Screen.height/2));
-      aimDirection = Vector3.Normalize(aimDirection);
+      grounded = controller.isGrounded;
+      if (grounded && velocity.y < 0) velocity.y = 0;
+    
+      move = controls.OnFoot.Move.ReadValue<Vector2>();
+    
+      moveDirection.Set(move.x, 0, move.y);
+      controller.Move(moveDirection * speed * Time.deltaTime);
+      velocity.y += gravity * Time.deltaTime;
+      controller.Move(velocity * Time.deltaTime);
+    
+      if (isGamepad)
+      {
+        aim = controls.OnFoot.Aim.ReadValue<Vector2>();
+        aimDirection = Vector3.right * aim.x + Vector3.forward * aim.y;
+      }
+      else
+      {
+        aim = controls.OnFoot.AimMouse.ReadValue<Vector2>();
+        aimDirection.Set(aim.x - (Screen.width/2), 0, aim.y - (Screen.height/2));
+        aimDirection = Vector3.Normalize(aimDirection);
+      }    
+    
+      if (aimDirection.sqrMagnitude > 0)
+      {
+        Quaternion newRotation = Quaternion.LookRotation(aimDirection, Vector3.up);  
+        transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, rotateRate * Time.deltaTime);
+      }
     }    
-    
-    if (aimDirection.sqrMagnitude > 0)
+    else if (vehicle != null)
     {
-      Quaternion newRotation = Quaternion.LookRotation(aimDirection, Vector3.up);  
-      transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, rotateRate * Time.deltaTime);
+      vehicle.turn = controls.InVehicle.Turn.ReadValue<float>();
+      vehicle.accelerate = controls.InVehicle.Accelerate.ReadValue<float>();
+      vehicle.brake = controls.InVehicle.Brake.ReadValue<float>();
     }
-
     cameraTarget.Set(transform.position.x, cameraDistance, transform.position.z);
     Camera.main.transform.SetPositionAndRotation(cameraTarget, Quaternion.Euler(90, 0, 0));
   }

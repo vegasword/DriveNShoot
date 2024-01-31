@@ -1,7 +1,16 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CarControl : MonoBehaviour
-{
+{  
+  public bool engineOn;
+  public float turn;
+  public float accelerate;
+  public float brake;
+  
+  public GameObject inside;
+  public GameObject outside;
+  
   public float motorTorque = 2000;
   public float brakeTorque = 2000;
   public float maxSpeed = 20;
@@ -9,46 +18,62 @@ public class CarControl : MonoBehaviour
   public float steeringRangeAtMaxSpeed = 10;
   public float centreOfGravityOffset = -1f;
 
-  WheelControl[] wheels;
-  Rigidbody rigidBody;
+  private WheelControl[] wheels;
+  private Rigidbody rigidBody;
   
-  void Start()
+  private void Start()
   {
     rigidBody = GetComponent<Rigidbody>();
     rigidBody.centerOfMass += Vector3.up * centreOfGravityOffset;
     wheels = GetComponentsInChildren<WheelControl>();
   }
 
-  void Update()
-  {
-    float vInput = Input.GetAxis("Vertical");
-    float hInput = Input.GetAxis("Horizontal");
-    float forwardSpeed = Vector3.Dot(transform.forward, rigidBody.velocity);
-    float speedFactor = Mathf.InverseLerp(0, maxSpeed, forwardSpeed);
-    float currentMotorTorque = Mathf.Lerp(motorTorque, 0, speedFactor);
-    float currentSteerRange = Mathf.Lerp(steeringRange, steeringRangeAtMaxSpeed, speedFactor);
-    bool isAccelerating = Mathf.Sign(vInput) == Mathf.Sign(forwardSpeed);
-    
-    foreach (var wheel in wheels)
-    {
-      if (wheel.steerable)
+  private void Update()
+  {    
+    if (engineOn)
+    {      
+      float forwardSpeed = Vector3.Dot(transform.forward, rigidBody.velocity);
+      float speedFactor = Mathf.InverseLerp(0, maxSpeed, forwardSpeed);
+      float currentMotorTorque = Mathf.Lerp(motorTorque, 0, speedFactor);
+      float currentSteerRange = Mathf.Lerp(steeringRange, steeringRangeAtMaxSpeed, speedFactor);
+      bool isAccelerating = Mathf.Sign(accelerate) == Mathf.Sign(forwardSpeed);
+      
+      foreach (var wheel in wheels)
       {
-        wheel.WheelCollider.steerAngle = hInput * currentSteerRange;
-      }
+        if (wheel.steerable)
+          wheel.WheelCollider.steerAngle = turn * currentSteerRange;
         
-      if (isAccelerating)
-      {
-        if (wheel.motorized)
+        if (isAccelerating)
         {
-          wheel.WheelCollider.motorTorque = vInput * currentMotorTorque;
+          if (wheel.motorized)
+            wheel.WheelCollider.motorTorque = 
+              (brake != 0 ? -brake : accelerate) * currentMotorTorque;
+          wheel.WheelCollider.brakeTorque = 0;
         }
-        wheel.WheelCollider.brakeTorque = 0;
+        else
+        {
+          wheel.WheelCollider.brakeTorque = Mathf.Abs(brake) * brakeTorque;
+          wheel.WheelCollider.motorTorque = 0;
+        }
       }
-      else
-      {
-        wheel.WheelCollider.brakeTorque = Mathf.Abs(vInput) * brakeTorque;
-        wheel.WheelCollider.motorTorque = 0;
-      }
+    }
+  }
+
+  private void OnTriggerEnter(Collider other)
+  {
+    if (other.tag == "Player")
+    {
+      Pawn p = other.GetComponent<Pawn>();
+      if (!p.driving) p.vehicle = GetComponent<CarControl>();
+    }
+  }
+  
+  private void OnTriggerExit(Collider other)
+  {
+    if (other.tag == "Player")
+    {
+      Pawn p = other.GetComponent<Pawn>();
+      if (!p.driving) p.vehicle = null;
     }
   }
 }
