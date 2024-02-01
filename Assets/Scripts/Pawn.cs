@@ -106,8 +106,13 @@ public class Pawn : MonoBehaviour
         aim = controls.OnFoot.AimMouse.ReadValue<Vector2>();
         aimDirection.Set(aim.x - (Screen.width/2), 0, aim.y - (Screen.height/2));
         aimDirection = Vector3.Normalize(aimDirection);
+
+        if (Mouse.current.leftButton.wasPressedThisFrame)
+        {
+          shoot();
+        }
       }    
-    
+      
       if (aimDirection.sqrMagnitude > 0)
       {
         Quaternion newRotation = Quaternion.LookRotation(aimDirection, Vector3.up);  
@@ -123,5 +128,13 @@ public class Pawn : MonoBehaviour
     
     cameraTarget.Set(transform.position.x, cameraDistance, transform.position.z);
     Camera.main.transform.SetPositionAndRotation(cameraTarget, Quaternion.Euler(90, 0, 0));
+  }
+  
+  private void shoot()
+  {
+    if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward),out RaycastHit hit, 20f))
+    {
+      if (hit.transform.tag == "NPC") Destroy(hit.transform.gameObject);
+    }
   }
 }
