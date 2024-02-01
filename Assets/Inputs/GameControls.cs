@@ -156,7 +156,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""17336bb6-5630-43f1-8071-e13cc8749f3f"",
-                    ""path"": ""<Keyboard>/f"",
+                    ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KBM"",
@@ -167,8 +167,8 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""b29de5f4-f7f5-4316-a622-391b444c7c46"",
-                    ""path"": ""<Gamepad>/buttonWest"",
-                    ""interactions"": """",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": ""Tap"",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Interact"",
@@ -194,7 +194,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""name"": ""Accelerate"",
                     ""type"": ""Value"",
                     ""id"": ""9b7ab4f0-02b4-43df-aab2-f0a79661d67b"",
-                    ""expectedControlType"": ""Axis"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -203,7 +203,16 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""name"": ""Brake"",
                     ""type"": ""Value"",
                     ""id"": ""d3bd9e29-01b5-4c8c-9bbc-f194da2f1286"",
-                    ""expectedControlType"": ""Axis"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Drift"",
+                    ""type"": ""Button"",
+                    ""id"": ""0aa5020a-7ae7-42b4-add3-3305a9f6f0af"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -297,6 +306,28 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""action"": ""Brake"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3d6c0cda-9825-44c7-b4b3-938350580800"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KBM"",
+                    ""action"": ""Drift"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""763ecc5d-0e1d-41ae-aa64-0568d35c46b2"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Drift"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -342,6 +373,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         m_InVehicle_Turn = m_InVehicle.FindAction("Turn", throwIfNotFound: true);
         m_InVehicle_Accelerate = m_InVehicle.FindAction("Accelerate", throwIfNotFound: true);
         m_InVehicle_Brake = m_InVehicle.FindAction("Brake", throwIfNotFound: true);
+        m_InVehicle_Drift = m_InVehicle.FindAction("Drift", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -476,6 +508,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_InVehicle_Turn;
     private readonly InputAction m_InVehicle_Accelerate;
     private readonly InputAction m_InVehicle_Brake;
+    private readonly InputAction m_InVehicle_Drift;
     public struct InVehicleActions
     {
         private @GameControls m_Wrapper;
@@ -483,6 +516,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         public InputAction @Turn => m_Wrapper.m_InVehicle_Turn;
         public InputAction @Accelerate => m_Wrapper.m_InVehicle_Accelerate;
         public InputAction @Brake => m_Wrapper.m_InVehicle_Brake;
+        public InputAction @Drift => m_Wrapper.m_InVehicle_Drift;
         public InputActionMap Get() { return m_Wrapper.m_InVehicle; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -501,6 +535,9 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @Brake.started += instance.OnBrake;
             @Brake.performed += instance.OnBrake;
             @Brake.canceled += instance.OnBrake;
+            @Drift.started += instance.OnDrift;
+            @Drift.performed += instance.OnDrift;
+            @Drift.canceled += instance.OnDrift;
         }
 
         private void UnregisterCallbacks(IInVehicleActions instance)
@@ -514,6 +551,9 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @Brake.started -= instance.OnBrake;
             @Brake.performed -= instance.OnBrake;
             @Brake.canceled -= instance.OnBrake;
+            @Drift.started -= instance.OnDrift;
+            @Drift.performed -= instance.OnDrift;
+            @Drift.canceled -= instance.OnDrift;
         }
 
         public void RemoveCallbacks(IInVehicleActions instance)
@@ -561,5 +601,6 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         void OnTurn(InputAction.CallbackContext context);
         void OnAccelerate(InputAction.CallbackContext context);
         void OnBrake(InputAction.CallbackContext context);
+        void OnDrift(InputAction.CallbackContext context);
     }
 }

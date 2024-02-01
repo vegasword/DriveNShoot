@@ -1,31 +1,60 @@
+using System;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class CarControl : MonoBehaviour
 {  
   public bool engineOn;
-  public float turn;
-  public float accelerate;
-  public float brake;
+  public float turnInput;
+  public float accelerateInput;
+  public float brakeInput;
   
   public GameObject inside;
   public GameObject outside;
   
   public float motorTorque = 2000;
   public float brakeTorque = 2000;
-  public float maxSpeed = 20;
+  public float maxSpeed = 100;
+  public float forwardStiffness = 5;
+  public float sidesStiffness = 5;
+  public float driftStiffness = 0.5f;
   public float steeringRange = 30;
   public float steeringRangeAtMaxSpeed = 10;
-  public float centreOfGravityOffset = -1f;
+  public float gravityCenterOffset = -1f;
 
   private WheelControl[] wheels;
+  private WheelCollider[] wheelsColliders;
   private Rigidbody rigidBody;
   
   private void Start()
   {
     rigidBody = GetComponent<Rigidbody>();
-    rigidBody.centerOfMass += Vector3.up * centreOfGravityOffset;
+    rigidBody.centerOfMass += Vector3.up * gravityCenterOffset;
+
     wheels = GetComponentsInChildren<WheelControl>();
+    wheelsColliders = GetComponentsInChildren<WheelCollider>();
+    foreach (WheelCollider collider in wheelsColliders)
+    {
+      WheelFrictionCurve newWfc;
+      newWfc = collider.sidewaysFriction;
+      newWfc.stiffness = sidesStiffness;
+      collider.sidewaysFriction = newWfc; 
+      newWfc = collider.forwardFriction;
+      newWfc.stiffness = forwardStiffness;
+      collider.forwardFriction = newWfc; 
+   }
+  }
+
+  public void Drift(bool drifting)
+  {
+    foreach (WheelCollider collider in wheelsColliders)
+    {
+      WheelFrictionCurve newWfc;
+      newWfc = collider.sidewaysFriction;
+      newWfc.stiffness = drifting ? 0.5f : 2f;
+      collider.sidewaysFriction = newWfc; 
+    }
   }
 
   private void Update()
@@ -34,27 +63,24 @@ public class CarControl : MonoBehaviour
     {      
       float forwardSpeed = Vector3.Dot(transform.forward, rigidBody.velocity);
       float speedFactor = Mathf.InverseLerp(0, maxSpeed, forwardSpeed);
-      float currentMotorTorque = Mathf.Lerp(motorTorque, 0, speedFactor);
       float currentSteerRange = Mathf.Lerp(steeringRange, steeringRangeAtMaxSpeed, speedFactor);
-      bool isAccelerating = Mathf.Sign(accelerate) == Mathf.Sign(forwardSpeed);
+      bool reverse = accelerateInput == 0 && brakeInput > 0;
       
       foreach (var wheel in wheels)
       {
         if (wheel.steerable)
-          wheel.WheelCollider.steerAngle = turn * currentSteerRange;
+          wheel.WheelCollider.steerAngle = turnInput * currentSteerRange;
         
-        if (isAccelerating)
+        if (wheel.motorized)
         {
-          if (wheel.motorized)
-            wheel.WheelCollider.motorTorque = 
-              (brake != 0 ? -brake : accelerate) * currentMotorTorque;
-          wheel.WheelCollider.brakeTorque = 0;
+          if (reverse)
+            wheel.WheelCollider.motorTorque = -brakeInput * brakeTorque;
+          else
+            wheel.WheelCollider.motorTorque = accelerateInput * motorTorque;
         }
-        else
-        {
-          wheel.WheelCollider.brakeTorque = Mathf.Abs(brake) * brakeTorque;
-          wheel.WheelCollider.motorTorque = 0;
-        }
+
+        if (!reverse)
+          wheel.WheelCollider.brakeTorque = brakeInput * brakeTorque;
       }
     }
   }

@@ -1,3 +1,4 @@
+//TODO: Split code in multiples generic nammed scripts
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,7 +13,6 @@ public class Pawn : MonoBehaviour
   
   private bool isGamepad;
   private GameControls controls;
-  private PlayerInput input;
   private CharacterController controller;
 
   private Renderer pawnRenderer;
@@ -34,9 +34,10 @@ public class Pawn : MonoBehaviour
     controller = GetComponent<CharacterController>();
     controls = new GameControls();
     controls.Enable();
-    input = GetComponent<PlayerInput>();
-    input.actions["Interact"].performed += OnInteract;
-
+    controls.OnFoot.Interact.performed += OnInteract;
+    controls.InVehicle.Drift.started += OnDriftStart;
+    controls.InVehicle.Drift.canceled += OnDriftEnd;
+    controls.InVehicle.Disable();
     pawnRenderer = GetComponent<Renderer>();
   }
   
@@ -51,21 +52,34 @@ public class Pawn : MonoBehaviour
     {
       driving = !driving;
       vehicle.engineOn = driving;
-      controller.enabled = !driving;
-      pawnRenderer.enabled = !driving;
       
       if (driving)
       {
+        controls.InVehicle.Enable();
         transform.SetPositionAndRotation(vehicle.inside.transform.position, Quaternion.identity);
         transform.SetParent(vehicle.transform);
       }
       else
       {
+        controls.InVehicle.Disable();
         transform.SetPositionAndRotation(vehicle.outside.transform.position, Quaternion.identity);
         transform.SetParent(null);
         vehicle = null;
       }
+
+      controller.enabled = !driving;
+      pawnRenderer.enabled = !driving; 
     }
+  }
+
+  public void OnDriftStart(InputAction.CallbackContext callbackContext)
+  {
+    vehicle.Drift(true);
+  }
+  
+  public void OnDriftEnd(InputAction.CallbackContext callbackContext)
+  {
+    vehicle.Drift(false);
   }
   
   private void Update()
@@ -102,10 +116,11 @@ public class Pawn : MonoBehaviour
     }    
     else if (vehicle != null)
     {
-      vehicle.turn = controls.InVehicle.Turn.ReadValue<float>();
-      vehicle.accelerate = controls.InVehicle.Accelerate.ReadValue<float>();
-      vehicle.brake = controls.InVehicle.Brake.ReadValue<float>();
+      vehicle.turnInput = controls.InVehicle.Turn.ReadValue<float>();
+      vehicle.accelerateInput = controls.InVehicle.Accelerate.ReadValue<float>();
+      vehicle.brakeInput = controls.InVehicle.Brake.ReadValue<float>();
     }
+    
     cameraTarget.Set(transform.position.x, cameraDistance, transform.position.z);
     Camera.main.transform.SetPositionAndRotation(cameraTarget, Quaternion.Euler(90, 0, 0));
   }
