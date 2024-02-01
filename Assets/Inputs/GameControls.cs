@@ -24,7 +24,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
     ""name"": ""GameControls"",
     ""maps"": [
         {
-            ""name"": ""PawnControls"",
+            ""name"": ""OnFoot"",
             ""id"": ""f8129ed4-f899-41f8-90d0-0416fe2eb8aa"",
             ""actions"": [
                 {
@@ -49,6 +49,15 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""name"": ""AimMouse"",
                     ""type"": ""Button"",
                     ""id"": ""c8b8748f-fa57-47d4-ad71-fc54a2031c77"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""f3f0fe95-602a-414a-916a-ad9f63d0cfdd"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -143,6 +152,182 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""action"": ""AimMouse"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""17336bb6-5630-43f1-8071-e13cc8749f3f"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KBM"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b29de5f4-f7f5-4316-a622-391b444c7c46"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": ""Tap"",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""InVehicle"",
+            ""id"": ""b17082da-367a-4fe9-9ab1-1e35827bea2a"",
+            ""actions"": [
+                {
+                    ""name"": ""Turn"",
+                    ""type"": ""Value"",
+                    ""id"": ""70129a8c-be31-4795-aa1c-0288ed403cd7"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Accelerate"",
+                    ""type"": ""Value"",
+                    ""id"": ""9b7ab4f0-02b4-43df-aab2-f0a79661d67b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Brake"",
+                    ""type"": ""Value"",
+                    ""id"": ""d3bd9e29-01b5-4c8c-9bbc-f194da2f1286"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Drift"",
+                    ""type"": ""Button"",
+                    ""id"": ""0aa5020a-7ae7-42b4-add3-3305a9f6f0af"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""56e4562a-4895-4db6-8197-bbb4905fdc0b"",
+                    ""path"": ""<Gamepad>/leftStick/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Turn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""QD"",
+                    ""id"": ""0d72ceb6-ecdf-49d0-bd54-26f4880b9c85"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Turn"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""ea69f2e6-3e9c-49c3-9c5c-b71af9b49827"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KBM"",
+                    ""action"": ""Turn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""5086f08a-cb61-404a-93e6-d18f5d5b9386"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KBM"",
+                    ""action"": ""Turn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dbf75168-a153-4527-b664-558a172b7890"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Accelerate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""65802fb2-991e-4d65-bbc5-57b7325def72"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KBM"",
+                    ""action"": ""Accelerate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""56e2155d-c015-473d-b1b1-047deea46e91"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Brake"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6ef8dc9d-6f06-4973-9196-28ddc79c3049"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KBM"",
+                    ""action"": ""Brake"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3d6c0cda-9825-44c7-b4b3-938350580800"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KBM"",
+                    ""action"": ""Drift"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""763ecc5d-0e1d-41ae-aa64-0568d35c46b2"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Drift"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -177,11 +362,18 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         }
     ]
 }");
-        // PawnControls
-        m_PawnControls = asset.FindActionMap("PawnControls", throwIfNotFound: true);
-        m_PawnControls_Move = m_PawnControls.FindAction("Move", throwIfNotFound: true);
-        m_PawnControls_Aim = m_PawnControls.FindAction("Aim", throwIfNotFound: true);
-        m_PawnControls_AimMouse = m_PawnControls.FindAction("AimMouse", throwIfNotFound: true);
+        // OnFoot
+        m_OnFoot = asset.FindActionMap("OnFoot", throwIfNotFound: true);
+        m_OnFoot_Move = m_OnFoot.FindAction("Move", throwIfNotFound: true);
+        m_OnFoot_Aim = m_OnFoot.FindAction("Aim", throwIfNotFound: true);
+        m_OnFoot_AimMouse = m_OnFoot.FindAction("AimMouse", throwIfNotFound: true);
+        m_OnFoot_Interact = m_OnFoot.FindAction("Interact", throwIfNotFound: true);
+        // InVehicle
+        m_InVehicle = asset.FindActionMap("InVehicle", throwIfNotFound: true);
+        m_InVehicle_Turn = m_InVehicle.FindAction("Turn", throwIfNotFound: true);
+        m_InVehicle_Accelerate = m_InVehicle.FindAction("Accelerate", throwIfNotFound: true);
+        m_InVehicle_Brake = m_InVehicle.FindAction("Brake", throwIfNotFound: true);
+        m_InVehicle_Drift = m_InVehicle.FindAction("Drift", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -240,28 +432,30 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // PawnControls
-    private readonly InputActionMap m_PawnControls;
-    private List<IPawnControlsActions> m_PawnControlsActionsCallbackInterfaces = new List<IPawnControlsActions>();
-    private readonly InputAction m_PawnControls_Move;
-    private readonly InputAction m_PawnControls_Aim;
-    private readonly InputAction m_PawnControls_AimMouse;
-    public struct PawnControlsActions
+    // OnFoot
+    private readonly InputActionMap m_OnFoot;
+    private List<IOnFootActions> m_OnFootActionsCallbackInterfaces = new List<IOnFootActions>();
+    private readonly InputAction m_OnFoot_Move;
+    private readonly InputAction m_OnFoot_Aim;
+    private readonly InputAction m_OnFoot_AimMouse;
+    private readonly InputAction m_OnFoot_Interact;
+    public struct OnFootActions
     {
         private @GameControls m_Wrapper;
-        public PawnControlsActions(@GameControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_PawnControls_Move;
-        public InputAction @Aim => m_Wrapper.m_PawnControls_Aim;
-        public InputAction @AimMouse => m_Wrapper.m_PawnControls_AimMouse;
-        public InputActionMap Get() { return m_Wrapper.m_PawnControls; }
+        public OnFootActions(@GameControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_OnFoot_Move;
+        public InputAction @Aim => m_Wrapper.m_OnFoot_Aim;
+        public InputAction @AimMouse => m_Wrapper.m_OnFoot_AimMouse;
+        public InputAction @Interact => m_Wrapper.m_OnFoot_Interact;
+        public InputActionMap Get() { return m_Wrapper.m_OnFoot; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(PawnControlsActions set) { return set.Get(); }
-        public void AddCallbacks(IPawnControlsActions instance)
+        public static implicit operator InputActionMap(OnFootActions set) { return set.Get(); }
+        public void AddCallbacks(IOnFootActions instance)
         {
-            if (instance == null || m_Wrapper.m_PawnControlsActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_PawnControlsActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_OnFootActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_OnFootActionsCallbackInterfaces.Add(instance);
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
@@ -271,9 +465,12 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @AimMouse.started += instance.OnAimMouse;
             @AimMouse.performed += instance.OnAimMouse;
             @AimMouse.canceled += instance.OnAimMouse;
+            @Interact.started += instance.OnInteract;
+            @Interact.performed += instance.OnInteract;
+            @Interact.canceled += instance.OnInteract;
         }
 
-        private void UnregisterCallbacks(IPawnControlsActions instance)
+        private void UnregisterCallbacks(IOnFootActions instance)
         {
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
@@ -284,23 +481,96 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @AimMouse.started -= instance.OnAimMouse;
             @AimMouse.performed -= instance.OnAimMouse;
             @AimMouse.canceled -= instance.OnAimMouse;
+            @Interact.started -= instance.OnInteract;
+            @Interact.performed -= instance.OnInteract;
+            @Interact.canceled -= instance.OnInteract;
         }
 
-        public void RemoveCallbacks(IPawnControlsActions instance)
+        public void RemoveCallbacks(IOnFootActions instance)
         {
-            if (m_Wrapper.m_PawnControlsActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_OnFootActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(IPawnControlsActions instance)
+        public void SetCallbacks(IOnFootActions instance)
         {
-            foreach (var item in m_Wrapper.m_PawnControlsActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_OnFootActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_PawnControlsActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_OnFootActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public PawnControlsActions @PawnControls => new PawnControlsActions(this);
+    public OnFootActions @OnFoot => new OnFootActions(this);
+
+    // InVehicle
+    private readonly InputActionMap m_InVehicle;
+    private List<IInVehicleActions> m_InVehicleActionsCallbackInterfaces = new List<IInVehicleActions>();
+    private readonly InputAction m_InVehicle_Turn;
+    private readonly InputAction m_InVehicle_Accelerate;
+    private readonly InputAction m_InVehicle_Brake;
+    private readonly InputAction m_InVehicle_Drift;
+    public struct InVehicleActions
+    {
+        private @GameControls m_Wrapper;
+        public InVehicleActions(@GameControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Turn => m_Wrapper.m_InVehicle_Turn;
+        public InputAction @Accelerate => m_Wrapper.m_InVehicle_Accelerate;
+        public InputAction @Brake => m_Wrapper.m_InVehicle_Brake;
+        public InputAction @Drift => m_Wrapper.m_InVehicle_Drift;
+        public InputActionMap Get() { return m_Wrapper.m_InVehicle; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(InVehicleActions set) { return set.Get(); }
+        public void AddCallbacks(IInVehicleActions instance)
+        {
+            if (instance == null || m_Wrapper.m_InVehicleActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_InVehicleActionsCallbackInterfaces.Add(instance);
+            @Turn.started += instance.OnTurn;
+            @Turn.performed += instance.OnTurn;
+            @Turn.canceled += instance.OnTurn;
+            @Accelerate.started += instance.OnAccelerate;
+            @Accelerate.performed += instance.OnAccelerate;
+            @Accelerate.canceled += instance.OnAccelerate;
+            @Brake.started += instance.OnBrake;
+            @Brake.performed += instance.OnBrake;
+            @Brake.canceled += instance.OnBrake;
+            @Drift.started += instance.OnDrift;
+            @Drift.performed += instance.OnDrift;
+            @Drift.canceled += instance.OnDrift;
+        }
+
+        private void UnregisterCallbacks(IInVehicleActions instance)
+        {
+            @Turn.started -= instance.OnTurn;
+            @Turn.performed -= instance.OnTurn;
+            @Turn.canceled -= instance.OnTurn;
+            @Accelerate.started -= instance.OnAccelerate;
+            @Accelerate.performed -= instance.OnAccelerate;
+            @Accelerate.canceled -= instance.OnAccelerate;
+            @Brake.started -= instance.OnBrake;
+            @Brake.performed -= instance.OnBrake;
+            @Brake.canceled -= instance.OnBrake;
+            @Drift.started -= instance.OnDrift;
+            @Drift.performed -= instance.OnDrift;
+            @Drift.canceled -= instance.OnDrift;
+        }
+
+        public void RemoveCallbacks(IInVehicleActions instance)
+        {
+            if (m_Wrapper.m_InVehicleActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IInVehicleActions instance)
+        {
+            foreach (var item in m_Wrapper.m_InVehicleActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_InVehicleActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public InVehicleActions @InVehicle => new InVehicleActions(this);
     private int m_GamepadSchemeIndex = -1;
     public InputControlScheme GamepadScheme
     {
@@ -319,10 +589,18 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             return asset.controlSchemes[m_KBMSchemeIndex];
         }
     }
-    public interface IPawnControlsActions
+    public interface IOnFootActions
     {
         void OnMove(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
         void OnAimMouse(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
+    }
+    public interface IInVehicleActions
+    {
+        void OnTurn(InputAction.CallbackContext context);
+        void OnAccelerate(InputAction.CallbackContext context);
+        void OnBrake(InputAction.CallbackContext context);
+        void OnDrift(InputAction.CallbackContext context);
     }
 }
