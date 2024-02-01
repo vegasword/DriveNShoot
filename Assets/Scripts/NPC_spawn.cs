@@ -1,17 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class NPC_spawn : MonoBehaviour
+public class NPC_Spawn : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject prefab_NPC;
-    // Start is called before the first frame update
-    void Start()
+  [SerializeField] private GameObject npc;
+  [SerializeField] private Vector2 minLocalBound; 
+  [SerializeField] private Vector2 maxLocalBound; 
+
+  void Awake()
+  {
+    GameObject[] targets = GameObject.FindGameObjectsWithTag("Target");
+    foreach (GameObject target in targets)
     {
-        for (int i = 0; i < 3; i++)
-        {
-            Instantiate(prefab_NPC, this.transform.position, Quaternion.identity);
-        }
+      float x = Random.Range(target.transform.position.x + minLocalBound.x, target.transform.position.z + maxLocalBound.x);
+      float z = Random.Range(target.transform.position.z + minLocalBound.y, target.transform.position.z + maxLocalBound.y); 
+      Instantiate(npc, new Vector3(x, 1, z), Quaternion.identity);
     }
+  }
 }
