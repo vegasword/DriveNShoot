@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.3069224, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -724,7 +724,7 @@ GameObject:
   - component: {fileID: 81098731}
   m_Layer: 0
   m_Name: GangTarget (2)
-  m_TagString: Target
+  m_TagString: AgressiveTarget
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -738,7 +738,7 @@ Transform:
   m_GameObject: {fileID: 81098730}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.94, y: 0, z: 4.44}
+  m_LocalPosition: {x: 6.94, y: 1, z: 4.44}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1419,7 +1419,7 @@ GameObject:
   - component: {fileID: 123512282}
   m_Layer: 0
   m_Name: GangTarget (3)
-  m_TagString: Target
+  m_TagString: AgressiveTarget
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1433,7 +1433,7 @@ Transform:
   m_GameObject: {fileID: 123512281}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.22, y: 0, z: -6.79}
+  m_LocalPosition: {x: 8.22, y: 1, z: -6.79}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2692,7 +2692,7 @@ GameObject:
   - component: {fileID: 314465978}
   m_Layer: 0
   m_Name: GangTarget (5)
-  m_TagString: Target
+  m_TagString: AgressiveTarget
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2706,7 +2706,7 @@ Transform:
   m_GameObject: {fileID: 314465977}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -11.56, y: 0, z: -9.99}
+  m_LocalPosition: {x: -11.56, y: 1, z: -9.99}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6221,13 +6221,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 648974843}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 16.489063, y: 1, z: 99.71}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 11, y: 0, z: 23}
+  m_LocalScale: {x: 75.81807, y: 1, z: 18.888296}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 729774443}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1001 &653796739
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16189,7 +16189,7 @@ GameObject:
   - component: {fileID: 1694415456}
   m_Layer: 0
   m_Name: GangTarget (1)
-  m_TagString: Target
+  m_TagString: AgressiveTarget
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16203,7 +16203,7 @@ Transform:
   m_GameObject: {fileID: 1694415455}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.77, y: 0, z: 3.81}
+  m_LocalPosition: {x: -7.77, y: 1, z: 3.81}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -19059,7 +19059,7 @@ GameObject:
   - component: {fileID: 1936500447}
   m_Layer: 0
   m_Name: GangTarget
-  m_TagString: Target
+  m_TagString: AgressiveTarget
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19073,7 +19073,7 @@ Transform:
   m_GameObject: {fileID: 1936500446}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -15.11, y: 0, z: 1.68}
+  m_LocalPosition: {x: -15.11, y: 1, z: 1.68}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -19865,13 +19865,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2000348106}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -931.4337, y: 0, z: -49.9935}
-  m_LocalScale: {x: 18.699335, y: 1, z: 60.378696}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -967, y: 0, z: 23}
+  m_LocalScale: {x: 77.43956, y: 1, z: 25.104105}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 729774443}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1001 &2022355231
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20338,7 +20338,7 @@ GameObject:
   - component: {fileID: 2045631772}
   m_Layer: 0
   m_Name: GangTarget (4)
-  m_TagString: Target
+  m_TagString: AgressiveTarget
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20352,7 +20352,7 @@ Transform:
   m_GameObject: {fileID: 2045631771}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.65, y: 0, z: -9.97}
+  m_LocalPosition: {x: -5.65, y: 1, z: -9.97}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

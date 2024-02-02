@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6061402151222138138}
   - component: {fileID: 6684158245612801127}
   - component: {fileID: 4318922946281713003}
+  - component: {fileID: -379156827878608019}
   m_Layer: 0
   m_Name: NeutralNPC
   m_TagString: NPC
@@ -146,3 +147,30 @@ MonoBehaviour:
   NavMeshAgent: {fileID: 6684158245612801127}
   Target: {fileID: 1505161890700690369, guid: a590cc20f38ad46d9ad90b5d51a88423, type: 3}
   AllTargets: []
+--- !u!54 &-379156827878608019
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7618838144335046406}
+  serializedVersion: 4
+  m_Mass: 80
+  m_Drag: 1
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 80
+  m_CollisionDetection: 0

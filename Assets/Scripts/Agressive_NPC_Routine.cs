@@ -20,7 +20,7 @@ public class Agressive_NPC_Routine : MonoBehaviour
   {
     navMeshAgent = GetComponent<NavMeshAgent>();
     player = GameObject.FindGameObjectWithTag("Player");
-    allTargets = GameObject.FindGameObjectsWithTag("Target");
+    allTargets = GameObject.FindGameObjectsWithTag("AgressiveTarget");
     List<GameObject> targetsWithinDistance = new();
 
     foreach (GameObject _target in allTargets)
@@ -28,7 +28,7 @@ public class Agressive_NPC_Routine : MonoBehaviour
         targetsWithinDistance.Add(_target);
 
     allTargets = targetsWithinDistance.ToArray();
-    target = allTargets[Random.Range(0, allTargets.Length - 1)];
+    target = allTargets[Random.Range(0, allTargets.Length)];
     shootDelay = Time.time;
   }
 
