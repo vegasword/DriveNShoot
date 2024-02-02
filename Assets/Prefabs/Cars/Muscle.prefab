@@ -768,14 +768,14 @@ MonoBehaviour:
   turnInput: 0
   accelerateInput: 0
   brakeInput: 0
-  inside: {fileID: 0}
-  outside: {fileID: 0}
-  motorTorque: 4000
+  inside: {fileID: 8991786639102274808}
+  outside: {fileID: 3428342291704908809}
+  motorTorque: 2500
   brakeTorque: 2000
-  maxSpeed: 100
+  maxSpeed: 70
   forwardStiffness: 10
-  sidesStiffness: 4
-  driftStiffness: 1
+  sidesStiffness: 6
+  driftStiffness: 2
   steeringRange: 30
   steeringRangeAtMaxSpeed: 10
   gravityCenterOffset: -1

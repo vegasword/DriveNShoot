@@ -1,93 +1,93 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Agressive_NPC_Routine : MonoBehaviour
 {
-    [SerializeField]
-    private UnityEngine.AI.NavMeshAgent NavMeshAgent;
+  [SerializeField] private NavMeshAgent navMeshAgent;
+  private GameObject player;
+  private GameObject target;
+  private GameObject[] allTargets;
+  
+  [SerializeField] float sectorSize = 50;
+  [SerializeField] float triggerDistance = 20;
+  [SerializeField,Range(0,70)] float aimSpreadAngle = 30;
 
-    private GameObject Target;
+  private float lastShotTime;
+  [SerializeField] private float shootDelay = 1;
 
-    private GameObject[] AllTargets;
+  void Start()
+  {
+    navMeshAgent = GetComponent<NavMeshAgent>();
+    player = GameObject.FindGameObjectWithTag("Player");
+    allTargets = GameObject.FindGameObjectsWithTag("AgressiveTarget");
+    List<GameObject> targetsWithinDistance = new();
+
+    foreach (GameObject _target in allTargets)
+      if (Vector3.Distance(transform.position, _target.transform.position) < sectorSize)
+        targetsWithinDistance.Add(_target);
+
+    allTargets = targetsWithinDistance.ToArray();
+    target = allTargets[Random.Range(0, allTargets.Length)];
+    shootDelay = Time.time;
+  }
+
+  void Update()
+  {
+    navMeshAgent.speed = 2f;
+
+    float toPlayerDistance = 
+      Vector3.Distance(transform.position , player.transform.position);
+      
+    if (toPlayerDistance <= triggerDistance)
+    {
+      target = player;
+    }
     
-    [SerializeField]
-    float SectorSize;
-
-    [SerializeField]
-    float TriggerDistance;
-
-    private GameObject Player;
-
-    [SerializeField,Range(0,90)]
-    float aim;
-
-    private float tempsDernierTir;
-
-    [SerializeField]
-    private float delaiEntreLesTirs = 1f;
-
-    // Start is called before the first frame update
-    void Start()
+    if (target != null)
     {
-        Player = GameObject.FindGameObjectWithTag("Player");
-        AllTargets = GameObject.FindGameObjectsWithTag("BadGuysTarget");
-        List<GameObject> targetsWithinDistance = new List<GameObject>();
+      float toTargetDistance =
+        Vector3.Distance(transform.position , target.transform.position);
 
-        foreach (GameObject t in AllTargets) {
-            float distance = Vector3.Distance(this.transform.position, t.transform.position);
+      if (target == player)
+      {
+        navMeshAgent.speed = 5f;
 
-            if (distance < SectorSize) {
-                targetsWithinDistance.Add(t);
-            }
+        if (toTargetDistance >= 2 * triggerDistance)
+          target = allTargets[Random.Range(0, allTargets.Length)];
+        
+        if (Time.time - lastShotTime >= shootDelay)
+        {
+          shoot();
+          lastShotTime = Time.time;
         }
-        AllTargets = targetsWithinDistance.ToArray();
-        Target = AllTargets[Random.Range(0, AllTargets.Length)];
-        tempsDernierTir = Time.time;
-    }
+      }
+      else if (toTargetDistance <= 0.5f)
+      {
+        target = allTargets[Random.Range(0, allTargets.Length)];
+      }
 
-    // Update is called once per frame
-    void Update()
+      navMeshAgent.destination = target.transform.position;
+    }
+  }
+
+  private void shoot()
+  {
+    float randomAngle = Random.Range(-aimSpreadAngle, aimSpreadAngle);
+    Vector3 randomDirection =
+      Quaternion.Euler(0, randomAngle, 0) * transform.TransformDirection(Vector3.forward);
+
+    if (Physics.Raycast(transform.position, randomDirection, out RaycastHit hit, 20f))
     {
-        NavMeshAgent.speed = 2f;
-        if (Vector3.Distance(this.transform.position , Player.transform.position) <= TriggerDistance)
-        {
-            Target = Player;
-        }
-        if (Target == Player)
-        {
-            NavMeshAgent.speed = 5f;
-            if (Vector3.Distance(this.transform.position , Target.transform.position) >= 2 * TriggerDistance)
-            {
-                Target = AllTargets[Random.Range(0, AllTargets.Length)];
-            }
-            if (Time.time - tempsDernierTir >= delaiEntreLesTirs)
-            {
-                shoot();
-                tempsDernierTir = Time.time;
-            }
-        }
-        else if (Target != null && Vector3.Distance(this.transform.position , Target.transform.position) <= 0.5f)
-        {
-            Target = AllTargets[Random.Range(0, AllTargets.Length)];
-        }
-        NavMeshAgent.destination = Target.transform.position;
+      if (hit.transform.tag == "Player")
+      {
+        Debug.Log("touché");
+      }
     }
-    private void shoot(){
-        float randomAngle = Random.Range(-1 * aim, aim);
-        Vector3 randomDirection = Quaternion.Euler(0, randomAngle, 0) * transform.TransformDirection(Vector3.forward);
-
-        if (Physics.Raycast(transform.position, randomDirection, out RaycastHit hit, 20f))
-        {
-            if (hit.transform.tag == "Player")
-            {
-            Debug.Log("touché");
-            }
-        }
-        else
-        {
-            Debug.Log("G raté");
-        }
+    else
+    {
+      Debug.Log("G raté");
+    }
   }
 }
 

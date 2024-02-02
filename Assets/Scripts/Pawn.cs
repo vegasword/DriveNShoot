@@ -1,4 +1,3 @@
-//TODO: Split code in multiples generic nammed scripts
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,8 +8,10 @@ public class Pawn : MonoBehaviour
   [SerializeField] private float speed = 10;
   [SerializeField] private float gravity = -9.81f;
   [SerializeField] private float rotateRate = 1;
-  [SerializeField] private float cameraDistance = 20;
-  
+  [SerializeField] private float onFootCameraDistance = 20;
+  [SerializeField] private float drivingCameraDistance = 45;
+  [SerializeField] private float cameraSpeed = 30;
+
   private bool isGamepad;
   private GameControls controls;
   private CharacterController controller;
@@ -35,10 +36,18 @@ public class Pawn : MonoBehaviour
     controls = new GameControls();
     controls.Enable();
     controls.OnFoot.Interact.performed += OnInteract;
+    controls.OnFoot.Shoot.performed += OnShoot;
     controls.InVehicle.Drift.started += OnDriftStart;
     controls.InVehicle.Drift.canceled += OnDriftEnd;
     controls.InVehicle.Disable();
+
     pawnRenderer = GetComponent<Renderer>();
+    
+    Camera.main.transform.position.Set(
+      transform.position.x,
+      onFootCameraDistance,
+      transform.position.z
+    );
   }
   
   public void OnDeviceChanged(PlayerInput playerInput)
@@ -81,7 +90,15 @@ public class Pawn : MonoBehaviour
   {
     vehicle.Drift(false);
   }
-  
+
+  public void OnShoot(InputAction.CallbackContext callbackContext)
+  {
+    if (!driving && Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward),out RaycastHit hit, 200))
+    {
+      if (hit.transform.tag == "NPC") Destroy(hit.transform.gameObject);
+    }
+  }
+
   private void Update()
   {    
     if (!driving)
@@ -106,11 +123,6 @@ public class Pawn : MonoBehaviour
         aim = controls.OnFoot.AimMouse.ReadValue<Vector2>();
         aimDirection.Set(aim.x - (Screen.width/2), 0, aim.y - (Screen.height/2));
         aimDirection = Vector3.Normalize(aimDirection);
-
-        if (Mouse.current.leftButton.wasPressedThisFrame)
-        {
-          shoot();
-        }
       }    
       
       if (aimDirection.sqrMagnitude > 0)
@@ -126,15 +138,15 @@ public class Pawn : MonoBehaviour
       vehicle.brakeInput = controls.InVehicle.Brake.ReadValue<float>();
     }
     
-    cameraTarget.Set(transform.position.x, cameraDistance, transform.position.z);
+    cameraTarget.Set(
+      transform.position.x,
+      Mathf.Lerp(
+        Camera.main.transform.position.y, 
+        driving ?  drivingCameraDistance : onFootCameraDistance,
+        cameraSpeed * Time.deltaTime
+      ),
+      transform.position.z
+    );
     Camera.main.transform.SetPositionAndRotation(cameraTarget, Quaternion.Euler(90, 0, 0));
-  }
-  
-  private void shoot()
-  {
-    if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward),out RaycastHit hit, 20f))
-    {
-      if (hit.transform.tag == "NPC") Destroy(hit.transform.gameObject);
-    }
   }
 }

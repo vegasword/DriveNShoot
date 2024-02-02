@@ -1,7 +1,4 @@
-using System;
-using UnityEditor.UIElements;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class CarControl : MonoBehaviour
 {  
@@ -52,7 +49,7 @@ public class CarControl : MonoBehaviour
     {
       WheelFrictionCurve newWfc;
       newWfc = collider.sidewaysFriction;
-      newWfc.stiffness = drifting ? 0.5f : 2f;
+      newWfc.stiffness = drifting ? 0.5f : sidesStiffness;
       collider.sidewaysFriction = newWfc; 
     }
   }
@@ -83,6 +80,17 @@ public class CarControl : MonoBehaviour
           wheel.WheelCollider.brakeTorque = brakeInput * brakeTorque;
       }
     }
+    /*
+    else
+    {
+      accelerateInput = 0;
+      brakeInput = 0;
+      turnInput = 0;
+      brakeTorque = 0;
+      motorTorque = 0;
+      Drift(false);
+    }
+    */
   }
 
   private void OnTriggerEnter(Collider other)
